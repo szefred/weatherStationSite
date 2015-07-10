@@ -13,7 +13,7 @@ try {
 }catch(PDOException $e){
     echo "<h1>" . $e->getMessage() . "</h1>";
 }
-$sql = 'SELECT  * FROM temperatura';
+$sql = 'SELECT  * FROM temperature_collection';
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
