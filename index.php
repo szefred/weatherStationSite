@@ -19,7 +19,7 @@ include 'config.php';
             }
 
             var xmlRequest = $.ajax({
-                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=first",
+                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=<?php echo $firstSensorName ?>",
                 method: "GET",
                 dataType: "json"
             });
@@ -39,7 +39,7 @@ include 'config.php';
             }
 
             var xmlRequest2 = $.ajax({
-                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=second",
+                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=<?php echo $secondSensorName ?>",
                 method: "GET",
                 dataType: "json"
             });
