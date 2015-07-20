@@ -6,9 +6,9 @@ include 'config.php';
 <head>
     <meta charset="UTF-8">
     <title>weather station</title>
-    <script language="javascript" type="text/javascript" src="js/flot/jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="js/flot/jquery.flot.js"></script>
-    <script language="javascript" type="text/javascript" src="js/flot/jquery.flot.time.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.flot.time.js"></script>
     <script type="text/javascript">
 
         $(function() {
