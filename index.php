@@ -1,3 +1,6 @@
+<?php
+include 'config.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +19,7 @@
             }
 
             var xmlRequest = $.ajax({
-                url: "http://localhost/getTemperature.php?sensorName=first",
+                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=first",
                 method: "GET",
                 dataType: "json"
             });
@@ -36,7 +39,7 @@
             }
 
             var xmlRequest2 = $.ajax({
-                url: "http://localhost/getTemperature.php?sensorName=second",
+                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=second",
                 method: "GET",
                 dataType: "json"
             });
@@ -60,7 +63,6 @@
 <div id="placeholder2" style="width:600px;height:300px"></div>
 
 <?php
-include 'config.php';
 
 try {
     $conn = new PDO($dsn, $username, $password);
