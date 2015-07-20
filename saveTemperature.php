@@ -1,14 +1,7 @@
 <?php
 
 if(!empty($_GET['temperature'])){
-    echo 'test';
-    $driver = 'mysql';
-    $database = "dbname=stacja_pogody";
-    $dsn = "$driver:host=localhost;$database";
-
-    $username = 'stacja_pogody2';
-    $password = 'arduino!';
-
+    include 'config.php';
     try {
         $conn = new PDO($dsn, $username, $password);
     }catch(PDOException $e){
