@@ -12,45 +12,51 @@ include 'config.php';
     <script type="text/javascript">
 
         $(function() {
-            function onDataReceived1(data) {
-                $.plot("#placeholder1", [data], {
-                    xaxis: { mode: "time" }
+
+            function update() {
+                function onDataReceived1(data) {
+                    $.plot("#placeholder1", [data], {
+                        xaxis: { mode: "time" }
+                    });
+                }
+
+                var xmlRequest = $.ajax({
+                    url: "http://<?php echo $url ?>/getTemperature.php?sensorName=<?php echo $firstSensorName ?>",
+                    method: "GET",
+                    dataType: "json"
                 });
+
+                xmlRequest.done(function( data ) {
+                    onDataReceived1(data);
+                });
+
+                xmlRequest.fail(function( jqXHR, textStatus ) {
+                    alert( "Request failed: " + textStatus );
+                });
+
+                function onDataReceived2(data) {
+                    $.plot("#placeholder2", [data], {
+                        xaxis: { mode: "time" }
+                    });
+                }
+
+                var xmlRequest2 = $.ajax({
+                    url: "http://<?php echo $url ?>/getTemperature.php?sensorName=<?php echo $secondSensorName ?>",
+                    method: "GET",
+                    dataType: "json"
+                });
+
+                xmlRequest2.done(function( data ) {
+                    onDataReceived2(data);
+                });
+
+                xmlRequest2.fail(function( jqXHR, textStatus ) {
+                    alert( "Request failed: " + textStatus );
+                });
+                setTimeout(update, 1000);
             }
 
-            var xmlRequest = $.ajax({
-                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=<?php echo $firstSensorName ?>",
-                method: "GET",
-                dataType: "json"
-            });
-
-            xmlRequest.done(function( data ) {
-                onDataReceived1(data);
-            });
-
-            xmlRequest.fail(function( jqXHR, textStatus ) {
-                alert( "Request failed: " + textStatus );
-            });
-
-            function onDataReceived2(data) {
-                $.plot("#placeholder2", [data], {
-                    xaxis: { mode: "time" }
-                });
-            }
-
-            var xmlRequest2 = $.ajax({
-                url: "http://<?php echo $url ?>/getTemperature.php?sensorName=<?php echo $secondSensorName ?>",
-                method: "GET",
-                dataType: "json"
-            });
-
-            xmlRequest2.done(function( data ) {
-                onDataReceived2(data);
-            });
-
-            xmlRequest2.fail(function( jqXHR, textStatus ) {
-                alert( "Request failed: " + textStatus );
-            });
+            update();
 
         });
 
@@ -66,23 +72,27 @@ include 'config.php';
 
 try {
     $conn = new PDO($dsn, $username, $password);
-    echo "<h2>Zapis temperatury</h2>";
+    echo "<h2>Entries</h2>";
 }catch(PDOException $e){
     echo "<h1>" . $e->getMessage() . "</h1>";
 }
-$sql = 'SELECT * FROM temperature_collection';
+$sql = 'SELECT date, sensor_name, temperature_value FROM temperature_collection';
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
 
 
-echo "<table style='width:100%'>";
+echo "<table>";
+echo "<tr>
+        <th>Date</th>
+        <th>Sensor name</th>
+        <th>Temperature</th>
+    </tr>";
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     echo "<tr>";
-    foreach($row as $value)
-    {
-        echo sprintf("<td>%s</td>", $value);
-    }
+    echo sprintf("<td>%s</td>", $row['date']);
+    echo sprintf("<td>%s</td>", $row['sensor_name']);
+    echo sprintf("<td>%s</td>", $row['temperature_value']);
     echo "</tr>";
 }
 echo "</table>";
